@@ -1,5 +1,5 @@
 FROM php:7.0-apache
-MAINTAINER Potato Powered Software <support@potatopowered.net>
+MAINTAINER gooze <gooze@makakken.de>
 
 # update apt-get
 RUN apt-get update
@@ -34,3 +34,12 @@ RUN a2enmod rewrite
 
 # set www permissions
 RUN usermod -u 1000 www-data
+
+# Copy App-Content to Image
+COPY . /var/www/html/
+
+# install app dependencies
+RUN composer self-update && composer install
+
+#Set Apache Document Root
+ENV APACHE_DOCUMENT_ROOT /var/www/html/webroot/
